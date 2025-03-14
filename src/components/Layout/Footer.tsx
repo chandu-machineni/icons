@@ -14,7 +14,7 @@ const Footer: React.FC<FooterProps> = ({ className }) => {
           🤹 Juggling ideas, making things happen – Chandu Machineni · 
 
           <a
-            href="https://www.linkedin.com/in/chandumanchala"
+            href="https://www.linkedin.com/in/chandu-machineni"
             target="_blank"
             rel="noopener noreferrer"
             className="text-[#0A66C2] flex items-center gap-1 ml-1"
