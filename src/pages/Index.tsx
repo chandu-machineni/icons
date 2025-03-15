@@ -109,8 +109,8 @@ const Index = () => {
           </div>
         </div>
         
-        {/* Main Content */}
-        <div className="flex flex-row items-start justify-center gap-4">
+        {/* Main Content Area */}
+        <div className="flex flex-row items-stretch justify-center gap-4">
           {/* Main content - Icon Gallery */}
           <div className={`${selectedIcon ? 'w-[640px] xl:w-[616px]' : 'w-full'}`}>
             <IconGallery 
@@ -123,36 +123,38 @@ const Index = () => {
             />
           </div>
           
-          {/* Right Sidebar - Only show when an icon is selected */}
+          {/* Container for sticky preview - fixed width, full height */}
           {selectedIcon && (
-            <div className="w-[448px] xl:w-[408px] space-y-2 self-start">
-              {/* Preview with Copy/Download buttons */}
-              <IconPreview 
-                selectedIcon={selectedIcon}
-                isLoading={isLoading}
-                size={previewSize}
-                strokeWidth={previewStrokeWidth}
-                color={previewColor}
-                onClose={handleClosePreview}
-                onStrokeWidthChange={handleStrokeWidthChange}
-                onSizeChange={setPreviewSize}
-                onColorChange={setPreviewColor}
-                isDarkMode={false}
-              />
-              
-              {/* Size, Stroke, and Color controls - now only affects preview */}
-              <IconControls 
-                size={previewSize}
-                setSize={setPreviewSize}
-                strokeWidth={previewStrokeWidth}
-                setStrokeWidth={setPreviewStrokeWidth}
-                color={previewColor}
-                setColor={setPreviewColor}
-                isLoading={isLoading}
-                hasIcon={!!selectedIcon}
-                supportsStroke={selectedIcon.iconifyName.split(':')[0].match(/(lucide|tabler|mingcute|line-md|carbon|mdi-light|iconoir|ph|solar|ri|uil|bx)/i) !== null}
-                supportsColor={!selectedIcon.iconifyName.split(':')[0].match(/(twemoji|noto|emojione|fxemoji|openmoji|fluent-emoji|logos|flag|cryptocurrency|circle-flags)/i)}
-              />
+            <div className="w-[448px] xl:w-[408px]" style={{ minHeight: '80vh' }}>
+              <div className="sticky top-[20px] pt-0">
+                <IconPreview 
+                  selectedIcon={selectedIcon}
+                  isLoading={isLoading}
+                  size={previewSize}
+                  strokeWidth={previewStrokeWidth}
+                  color={previewColor}
+                  onClose={handleClosePreview}
+                  onStrokeWidthChange={handleStrokeWidthChange}
+                  onSizeChange={setPreviewSize}
+                  onColorChange={setPreviewColor}
+                  isDarkMode={false}
+                />
+                
+                <div className="mt-2">
+                  <IconControls 
+                    size={previewSize}
+                    setSize={setPreviewSize}
+                    strokeWidth={previewStrokeWidth}
+                    setStrokeWidth={setPreviewStrokeWidth}
+                    color={previewColor}
+                    setColor={setPreviewColor}
+                    isLoading={isLoading}
+                    hasIcon={!!selectedIcon}
+                    supportsStroke={selectedIcon.iconifyName.split(':')[0].match(/(lucide|tabler|mingcute|line-md|carbon|mdi-light|iconoir|ph|solar|ri|uil|bx)/i) !== null}
+                    supportsColor={!selectedIcon.iconifyName.split(':')[0].match(/(twemoji|noto|emojione|fxemoji|openmoji|fluent-emoji|logos|flag|cryptocurrency|circle-flags)/i)}
+                  />
+                </div>
+              </div>
             </div>
           )}
         </div>
