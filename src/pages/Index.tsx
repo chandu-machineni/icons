@@ -110,9 +110,9 @@ const Index = () => {
         </div>
         
         {/* Main Content */}
-        <div className="flex flex-col lg:flex-row gap-2">
+        <div className="flex flex-row items-start justify-center gap-4">
           {/* Main content - Icon Gallery */}
-          <div className={`${selectedIcon ? 'lg:w-2/3 xl:w-3/4' : 'w-full'}`}>
+          <div className={`${selectedIcon ? 'w-[640px] xl:w-[616px]' : 'w-full'}`}>
             <IconGallery 
               searchQuery={debouncedSearchQuery}
               size={gallerySize}
@@ -125,7 +125,7 @@ const Index = () => {
           
           {/* Right Sidebar - Only show when an icon is selected */}
           {selectedIcon && (
-            <div className="lg:w-1/3 xl:w-1/4 space-y-2 lg:sticky top-10 self-start">
+            <div className="w-[448px] xl:w-[408px] space-y-2 self-start">
               {/* Preview with Copy/Download buttons */}
               <IconPreview 
                 selectedIcon={selectedIcon}
