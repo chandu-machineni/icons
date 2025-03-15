@@ -139,7 +139,7 @@ const IconGallery: React.FC<IconGalleryProps> = ({
 
   // Determine the grid columns class based on whether preview is open
   const gridColumnsClass = isPreviewOpen
-    ? "grid-cols-4 gap-2"
+    ? "grid-cols-2 xl:grid-cols-3 gap-2"
     : "grid-cols-5 gap-2";
   
   // Check if we're searching and have results
@@ -184,7 +184,7 @@ const IconGallery: React.FC<IconGalleryProps> = ({
   };
 
   return (
-    <div className="w-full max-w-[1024px] mx-auto space-y-4">
+    <div className={`w-full ${isPreviewOpen ? 'max-w-[616px]' : 'max-w-[1024px]'} mx-auto space-y-4`}>
       {/* Search results header - only show when actively searching */}
       {hasSearchResults && (
         <div className="flex items-center justify-between mb-3">
