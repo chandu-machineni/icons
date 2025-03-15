@@ -57,6 +57,10 @@ export const iconLibraries = [
   { id: 'feather', name: 'Feather Icons', url: 'https://feathericons.com/' },
   { id: 'uil', name: 'Unicons', url: 'https://iconscout.com/unicons' },
   { id: 'octicon', name: 'Octicons', url: 'https://primer.style/octicons/' },
+  { id: 'mingcute', name: 'MingCute Icons', url: 'https://www.mingcute.com/' },
+  { id: 'iconoir', name: 'Iconoir', url: 'https://iconoir.com/' },
+  { id: 'bxs', name: 'Boxicons Solid', url: 'https://boxicons.com/' },
+  { id: 'bxl', name: 'Boxicons Logos', url: 'https://boxicons.com/' }
 ];
 
 // Icon categories
@@ -108,7 +112,7 @@ const iconifyProvider: IconProvider = {
   
   search: async (query: string, options?: any, page: number = 1): Promise<Icon[]> => {
     try {
-      const limit = 200; // Fetch more icons per request
+      const limit = 1000; // Increased from 200 to 1000
       const offset = (page - 1) * limit;
       const url = `https://api.iconify.design/search?query=${encodeURIComponent(query)}&limit=${limit}&offset=${offset}`;
       
@@ -164,7 +168,7 @@ const fontAwesomeProvider: IconProvider = {
   
   search: async (query: string, options?: any, page: number = 1): Promise<Icon[]> => {
     try {
-      const limit = 100; // Fetch more icons per request
+      const limit = 500; // Increased from 100 to 500
       const offset = (page - 1) * limit;
       const prefixes = 'fa,fa6-solid,fa6-regular,fa6-brands';
       const url = `https://api.iconify.design/search?query=${encodeURIComponent(query)}&prefix=${prefixes}&limit=${limit}&offset=${offset}`;
@@ -203,7 +207,7 @@ const materialDesignProvider: IconProvider = {
   
   search: async (query: string, options?: any, page: number = 1): Promise<Icon[]> => {
     try {
-      const limit = 100; // Fetch more icons per request
+      const limit = 500; // Increased from 100 to 500
       const offset = (page - 1) * limit;
       const prefixes = 'mdi,material-symbols';
       const url = `https://api.iconify.design/search?query=${encodeURIComponent(query)}&prefix=${prefixes}&limit=${limit}&offset=${offset}`;
@@ -242,7 +246,7 @@ const bootstrapIconsProvider: IconProvider = {
   
   search: async (query: string, options?: any, page: number = 1): Promise<Icon[]> => {
     try {
-      const limit = 100;
+      const limit = 500; // Increased from 100 to 500
       const offset = (page - 1) * limit;
       const url = `https://api.iconify.design/search?query=${encodeURIComponent(query)}&prefix=bi&limit=${limit}&offset=${offset}`;
       
@@ -280,7 +284,7 @@ const heroiconsProvider: IconProvider = {
   
   search: async (query: string, options?: any, page: number = 1): Promise<Icon[]> => {
     try {
-      const limit = 100;
+      const limit = 500; // Increased from 100 to 500
       const offset = (page - 1) * limit;
       const url = `https://api.iconify.design/search?query=${encodeURIComponent(query)}&prefix=heroicons&limit=${limit}&offset=${offset}`;
       
@@ -318,7 +322,7 @@ const remixIconProvider: IconProvider = {
   
   search: async (query: string, options?: any, page: number = 1): Promise<Icon[]> => {
     try {
-      const limit = 100;
+      const limit = 500; // Increased from 100 to 500
       const offset = (page - 1) * limit;
       const url = `https://api.iconify.design/search?query=${encodeURIComponent(query)}&prefix=ri&limit=${limit}&offset=${offset}`;
       
@@ -356,7 +360,7 @@ const svgRepoProvider: IconProvider = {
   
   search: async (query: string, options?: any, page: number = 1): Promise<Icon[]> => {
     try {
-      const limit = 100;
+      const limit = 500; // Increased from 100 to 500
       const offset = (page - 1) * limit;
       // SVG Repo doesn't have a direct API, but we can use Iconify API with additional prefixes
       // that are available in SVG Repo but might not be included in our current list
@@ -417,7 +421,7 @@ const iconboltProvider: IconProvider = {
   
   search: async (query: string, options?: any, page: number = 1): Promise<Icon[]> => {
     try {
-      const limit = 100;
+      const limit = 500; // Increased from 100 to 500
       const offset = (page - 1) * limit;
       // Iconbolt doesn't have a direct API, but we can use Iconify API with additional prefixes
       // that are available in Iconbolt but might not be included in our current list
@@ -469,6 +473,234 @@ const iconboltProvider: IconProvider = {
   }
 };
 
+// ------------------
+// BOXICONS PROVIDER
+// ------------------
+const boxiconsProvider: IconProvider = {
+  id: 'boxicons',
+  name: 'Boxicons',
+  
+  search: async (query: string, options?: any, page: number = 1): Promise<Icon[]> => {
+    try {
+      const limit = 500;
+      const offset = (page - 1) * limit;
+      const url = `https://api.iconify.design/search?query=${encodeURIComponent(query)}&prefix=bx,bxs,bxl&limit=${limit}&offset=${offset}`;
+      
+      const response = await fetch(url);
+      if (!response.ok) throw new Error('Failed to fetch Boxicons');
+      
+      const data = await response.json();
+      return convertIconifyResultsToIcons(data, 'boxicons');
+    } catch (error) {
+      console.error('Error fetching Boxicons:', error);
+      return [];
+    }
+  },
+  
+  getPopular: async (): Promise<Icon[]> => {
+    try {
+      const response = await fetch(`https://api.iconify.design/search?prefix=bx,bxs,bxl&limit=50`);
+      if (!response.ok) throw new Error('Failed to fetch popular Boxicons');
+      
+      const data = await response.json();
+      return convertIconifyResultsToIcons(data, 'boxicons');
+    } catch (error) {
+      console.error('Error fetching popular Boxicons:', error);
+      return [];
+    }
+  }
+};
+
+// ------------------
+// LUCIDE ICONS PROVIDER
+// ------------------
+const lucideIconsProvider: IconProvider = {
+  id: 'lucide',
+  name: 'Lucide Icons',
+  
+  search: async (query: string, options?: any, page: number = 1): Promise<Icon[]> => {
+    try {
+      const limit = 500;
+      const offset = (page - 1) * limit;
+      const url = `https://api.iconify.design/search?query=${encodeURIComponent(query)}&prefix=lucide&limit=${limit}&offset=${offset}`;
+      
+      const response = await fetch(url);
+      if (!response.ok) throw new Error('Failed to fetch Lucide icons');
+      
+      const data = await response.json();
+      return convertIconifyResultsToIcons(data, 'lucide');
+    } catch (error) {
+      console.error('Error fetching Lucide icons:', error);
+      return [];
+    }
+  },
+  
+  getPopular: async (): Promise<Icon[]> => {
+    try {
+      const response = await fetch(`https://api.iconify.design/search?prefix=lucide&limit=50`);
+      if (!response.ok) throw new Error('Failed to fetch popular Lucide icons');
+      
+      const data = await response.json();
+      return convertIconifyResultsToIcons(data, 'lucide');
+    } catch (error) {
+      console.error('Error fetching popular Lucide icons:', error);
+      return [];
+    }
+  }
+};
+
+// ------------------
+// PHOSPHOR ICONS PROVIDER
+// ------------------
+const phosphorIconsProvider: IconProvider = {
+  id: 'phosphor',
+  name: 'Phosphor Icons',
+  
+  search: async (query: string, options?: any, page: number = 1): Promise<Icon[]> => {
+    try {
+      const limit = 500;
+      const offset = (page - 1) * limit;
+      const url = `https://api.iconify.design/search?query=${encodeURIComponent(query)}&prefix=ph&limit=${limit}&offset=${offset}`;
+      
+      const response = await fetch(url);
+      if (!response.ok) throw new Error('Failed to fetch Phosphor icons');
+      
+      const data = await response.json();
+      return convertIconifyResultsToIcons(data, 'phosphor');
+    } catch (error) {
+      console.error('Error fetching Phosphor icons:', error);
+      return [];
+    }
+  },
+  
+  getPopular: async (): Promise<Icon[]> => {
+    try {
+      const response = await fetch(`https://api.iconify.design/search?prefix=ph&limit=50`);
+      if (!response.ok) throw new Error('Failed to fetch popular Phosphor icons');
+      
+      const data = await response.json();
+      return convertIconifyResultsToIcons(data, 'phosphor');
+    } catch (error) {
+      console.error('Error fetching popular Phosphor icons:', error);
+      return [];
+    }
+  }
+};
+
+// ------------------
+// MINGCUTE ICONS PROVIDER
+// ------------------
+const mingcuteIconsProvider: IconProvider = {
+  id: 'mingcute',
+  name: 'MingCute Icons',
+  
+  search: async (query: string, options?: any, page: number = 1): Promise<Icon[]> => {
+    try {
+      const limit = 500;
+      const offset = (page - 1) * limit;
+      const url = `https://api.iconify.design/search?query=${encodeURIComponent(query)}&prefix=mingcute&limit=${limit}&offset=${offset}`;
+      
+      const response = await fetch(url);
+      if (!response.ok) throw new Error('Failed to fetch MingCute icons');
+      
+      const data = await response.json();
+      return convertIconifyResultsToIcons(data, 'mingcute');
+    } catch (error) {
+      console.error('Error fetching MingCute icons:', error);
+      return [];
+    }
+  },
+  
+  getPopular: async (): Promise<Icon[]> => {
+    try {
+      const response = await fetch(`https://api.iconify.design/search?prefix=mingcute&limit=50`);
+      if (!response.ok) throw new Error('Failed to fetch popular MingCute icons');
+      
+      const data = await response.json();
+      return convertIconifyResultsToIcons(data, 'mingcute');
+    } catch (error) {
+      console.error('Error fetching popular MingCute icons:', error);
+      return [];
+    }
+  }
+};
+
+// ------------------
+// TABLER ICONS PROVIDER
+// ------------------
+const tablerIconsProvider: IconProvider = {
+  id: 'tabler',
+  name: 'Tabler Icons',
+  
+  search: async (query: string, options?: any, page: number = 1): Promise<Icon[]> => {
+    try {
+      const limit = 500;
+      const offset = (page - 1) * limit;
+      const url = `https://api.iconify.design/search?query=${encodeURIComponent(query)}&prefix=tabler&limit=${limit}&offset=${offset}`;
+      
+      const response = await fetch(url);
+      if (!response.ok) throw new Error('Failed to fetch Tabler icons');
+      
+      const data = await response.json();
+      return convertIconifyResultsToIcons(data, 'tabler');
+    } catch (error) {
+      console.error('Error fetching Tabler icons:', error);
+      return [];
+    }
+  },
+  
+  getPopular: async (): Promise<Icon[]> => {
+    try {
+      const response = await fetch(`https://api.iconify.design/search?prefix=tabler&limit=50`);
+      if (!response.ok) throw new Error('Failed to fetch popular Tabler icons');
+      
+      const data = await response.json();
+      return convertIconifyResultsToIcons(data, 'tabler');
+    } catch (error) {
+      console.error('Error fetching popular Tabler icons:', error);
+      return [];
+    }
+  }
+};
+
+// ------------------
+// ICONOIR PROVIDER
+// ------------------
+const iconoirProvider: IconProvider = {
+  id: 'iconoir',
+  name: 'Iconoir',
+  
+  search: async (query: string, options?: any, page: number = 1): Promise<Icon[]> => {
+    try {
+      const limit = 500;
+      const offset = (page - 1) * limit;
+      const url = `https://api.iconify.design/search?query=${encodeURIComponent(query)}&prefix=iconoir&limit=${limit}&offset=${offset}`;
+      
+      const response = await fetch(url);
+      if (!response.ok) throw new Error('Failed to fetch Iconoir icons');
+      
+      const data = await response.json();
+      return convertIconifyResultsToIcons(data, 'iconoir');
+    } catch (error) {
+      console.error('Error fetching Iconoir icons:', error);
+      return [];
+    }
+  },
+  
+  getPopular: async (): Promise<Icon[]> => {
+    try {
+      const response = await fetch(`https://api.iconify.design/search?prefix=iconoir&limit=50`);
+      if (!response.ok) throw new Error('Failed to fetch popular Iconoir icons');
+      
+      const data = await response.json();
+      return convertIconifyResultsToIcons(data, 'iconoir');
+    } catch (error) {
+      console.error('Error fetching popular Iconoir icons:', error);
+      return [];
+    }
+  }
+};
+
 // List of all providers
 const iconProviders: IconProvider[] = [
   iconifyProvider,
@@ -478,7 +710,13 @@ const iconProviders: IconProvider[] = [
   heroiconsProvider,
   remixIconProvider,
   svgRepoProvider,
-  iconboltProvider
+  iconboltProvider,
+  boxiconsProvider,
+  lucideIconsProvider,
+  phosphorIconsProvider,
+  mingcuteIconsProvider,
+  tablerIconsProvider,
+  iconoirProvider
 ];
 
 // Function to convert Iconify API results to our Icon type
@@ -613,11 +851,8 @@ export const searchIcons = async (query: string, filters: {
       }, {})
     );
     
-    // Limit the number of icons to avoid excessive memory usage
-    const maxIcons = 1000;
-    if (icons.length > maxIcons) {
-      icons = icons.slice(0, maxIcons);
-    }
+    // No longer limiting the number of icons
+    // Let the application show all matching results
     
     // Cache the results
     searchCache[cacheKey] = icons;
@@ -1247,7 +1482,7 @@ export async function getSvgWithOptions(iconPath: string, options: SvgOptions): 
         
         // Add color parameter if provided and supported
         if (color && color !== 'currentColor' && supportsColorChanges) {
-      const colorValue = color.startsWith('#') ? color.substring(1) : color;
+          const colorValue = color.startsWith('#') ? color.substring(1) : color;
           parameterizedUrl += `&color=${colorValue}`;
         }
         
@@ -1285,7 +1520,7 @@ export async function getSvgWithOptions(iconPath: string, options: SvgOptions): 
         svg = svg.replace(/<(path|line|rect|circle|ellipse|polyline|polygon|g)([^>]*)>/g, (match, tag, attrs) => {
           // Don't add stroke-width if stroke="none" is present
           if (attrs.includes('stroke="none"')) {
-        return match;
+            return match;
           }
           
           // Add stroke="currentColor" if no stroke attribute exists
@@ -1386,9 +1621,9 @@ export async function getSvgWithOptions(iconPath: string, options: SvgOptions): 
         } else {
           throw new Error('Cannot generate valid SVG');
         }
-    }
-    
-    return svg;
+      }
+      
+      return svg;
     }
   } catch (error) {
     console.error('Error modifying SVG:', error);
