@@ -1482,7 +1482,7 @@ export async function getSvgWithOptions(iconPath: string, options: SvgOptions): 
         
         // Add color parameter if provided and supported
         if (color && color !== 'currentColor' && supportsColorChanges) {
-          const colorValue = color.startsWith('#') ? color.substring(1) : color;
+      const colorValue = color.startsWith('#') ? color.substring(1) : color;
           parameterizedUrl += `&color=${colorValue}`;
         }
         
@@ -1520,7 +1520,7 @@ export async function getSvgWithOptions(iconPath: string, options: SvgOptions): 
         svg = svg.replace(/<(path|line|rect|circle|ellipse|polyline|polygon|g)([^>]*)>/g, (match, tag, attrs) => {
           // Don't add stroke-width if stroke="none" is present
           if (attrs.includes('stroke="none"')) {
-            return match;
+        return match;
           }
           
           // Add stroke="currentColor" if no stroke attribute exists
@@ -1621,9 +1621,9 @@ export async function getSvgWithOptions(iconPath: string, options: SvgOptions): 
         } else {
           throw new Error('Cannot generate valid SVG');
         }
-      }
-      
-      return svg;
+    }
+    
+    return svg;
     }
   } catch (error) {
     console.error('Error modifying SVG:', error);
@@ -1699,12 +1699,46 @@ export function getFormattedFilename(icon: Icon, options: SvgOptions): string {
 export function showIconTypeWarning(iconType: string) {
   const typeText = iconType.toLowerCase();
   toast.warning(
-    `${typeText === 'emoji' ? 'Emojis' : 'These icons'} can't be customized`,
+    `Stroke editing not supported for this icon`,
     {
-      description: "Download the SVG and edit it in a vector editor like Figma or Illustrator for customization."
+      description: "Download the SVG and edit it in a vector editor like Figma or Illustrator for customization.",
+      style: {
+        borderRadius: '10px',
+        background: '#333',
+        color: '#fff',
+        border: '1px solid #333'
+      }
     }
   );
 }
+
+// License types for icon libraries
+export type LicenseType = 'free' | 'attribution' | 'unknown';
+
+// Function to determine license type based on icon library
+export const getIconLicense = (iconName: string): { type: LicenseType; attribution?: string } => {
+  if (!iconName) return { type: 'unknown' };
+  
+  const iconPath = iconName.replace(':', '/');
+  const prefix = iconPath.split('/')[0];
+  
+  // Libraries that require attribution
+  const attributionRequired = ['fa', 'fa6-solid', 'fa6-regular', 'fa6-brands'];
+  
+  // Libraries with unknown license status
+  const unknownLicense = ['svgrepo', 'iconbolt'];
+  
+  if (attributionRequired.some(lib => prefix.includes(lib))) {
+    return { 
+      type: 'attribution',
+      attribution: 'Font Awesome Free 6.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0)'
+    };
+  } else if (unknownLicense.some(lib => prefix.includes(lib))) {
+    return { type: 'unknown' };
+  } else {
+    return { type: 'free' };
+  }
+};
 
 export default {
   searchIcons,
